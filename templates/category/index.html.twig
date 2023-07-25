@@ -3,11 +3,13 @@
 {% block title %}Hello CategoryController!{% endblock %}
 
 {% block body %}
-<h1>Liste des catégories</h1>
+    <h1>Liste des catégories</h1>
     <ul>
         {% for category in categories %}
-{#            <li>{{ category.label }}</li>#}
-            <li><a href="{{ path('app_category_show', {'id':category.id}) }}">{{ category.label }}</a></li>
+            {#            <li>{{ category.label }}</li> #}
+            <li><a href="{{ path('app_category_show', {'id':category.id}) }}">{{ category.label }}</a>
+            <a href="{{ path('app_category_delete', {'id':category.id}) }}">Supprimer</a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}
