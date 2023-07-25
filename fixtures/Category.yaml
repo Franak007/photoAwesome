@@ -1,0 +1,8 @@
+#Category.yaml
+App\Entity\Category:
+  category0:
+      label: "Noir et Blanc"
+  category1:
+      label: "Paysages"
+  category{2..50} :
+      label: "<word()>"
