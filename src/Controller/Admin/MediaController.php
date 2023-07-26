@@ -48,6 +48,10 @@ class MediaController extends AbstractController
                     ->andWhere('u.email = :email')
                     ->setParameter('email', $data['userEmail']);
             }
+            if($data['mediaCreationDate'] !== null) {
+                $qb ->andWhere('m.createdAt > :creationDate')
+                    ->setParameter('creationDate', $data['mediaCreationDate']);
+            }
         }
 
 
