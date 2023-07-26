@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une média</h1>
+    {{ form_start(form) }}
+<ul>
+    <li>{{ form_row(form.filePath) }}</li>
+    <li>{{ form_row(form.title) }}</li>
+    <li>{{ form_row(form.description) }}</li>
+    <li>{{ form_row(form.slug) }}</li>
+    <li>{{ form_row(form.createdAt) }}</li>
+    <li>{{ form_row(form.categories) }}</li>
+    <li>{{ form_row(form.user) }}</li>
+</ul>
+    <button type="submit">Valider la création du média</button>
+    {{ form_end (form) }}
+{% endblock %}

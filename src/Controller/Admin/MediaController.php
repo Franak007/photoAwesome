@@ -2,6 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Category;
+use App\Entity\Media;
+use App\Form\CategoryType;
+use App\Form\MediaInsertType;
 use App\Form\MediaSearchType;
 use App\Repository\MediaRepository;
 use Container3xYJlWO\getKnpPaginatorService;
@@ -79,6 +83,26 @@ class MediaController extends AbstractController
 
         return $this->render('media/show.html.twig', [
             'media' => $media
+        ]);
+    }
+
+    #[Route('/add', name: 'app_media_add')]
+    public function add(Request $request): Response
+    {
+        $media = new Media();
+        $form = $this->createForm(MediaInsertType::class, $media);
+        $form->handleRequest($request); // Donne la consigne au formulaire d'écouter ce qui se passe dans la request
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($media);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_media');
+        }
+
+        return $this->render('media/add.html.twig', [
+            'form' => $form->createView()
+
         ]);
     }
 }
