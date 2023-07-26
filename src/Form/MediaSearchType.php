@@ -21,6 +21,10 @@ class MediaSearchType extends AbstractType
                 'label' => "Email du créateur",
                 'required' => false
             ])
+            ->add('mediaCreationDate', TextType::class, [
+                'label' => "Date de création du média",
+                'required' => false
+            ])
         ;
     }
 

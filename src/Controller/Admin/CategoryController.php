@@ -37,7 +37,7 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if ($data['categoryLabel'] !== null) {
+            if ($data['categoryLabel'] !== null) { //categoryLabel est récupéré dans CategorySearchType
                 $qb->andWhere('c.label LIKE :toto')
                     ->setParameter('toto', "%" . $data['categoryLabel'] . "%");
             }
