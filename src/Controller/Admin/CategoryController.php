@@ -3,7 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use App\Form\CategorySearchType;
 use App\Form\CategoryType;
+use App\Form\MediaSearchType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,14 +25,31 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/', name: 'app_category')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        // $qb = SELECT * FROM category
 
-        $categoryEntities = $this->categoryRepository->findAll();
+        $qb = $this->categoryRepository->getQbAll();
+
+        $form = $this->createForm(CategorySearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if ($data['categoryLabel'] !== null) {
+                $qb->andWhere('c.label LIKE :toto')
+                    ->setParameter('toto', "%" . $data['categoryLabel'] . "%");
+            }
+        }
+
+        $result = $qb->getQuery()->getResult();
+//        $categoryEntities = $this->categoryRepository->findAll();
 
         return $this->render('category/index.html.twig', [
 //            'controller_name' => 'CategoryController',
-            'categories' => $categoryEntities
+            'categories' => $result,
+            'form' => $form->createView()
         ]);
     }
 
@@ -87,7 +106,7 @@ class CategoryController extends AbstractController
     {
         $category = $this->categoryRepository->find($id);
 
-        if($category !== null) {
+        if ($category !== null) {
             $form = $this->createForm(CategoryType::class, $category);
             $form->handleRequest($request); // Donne la consigne au formulaire d'écouter ce qui se passe dans la request
 
