@@ -17,6 +17,10 @@ class MediaSearchType extends AbstractType
                 'label' => "Titre du média",
                 'required' => false
             ])
+            ->add('userEmail', TextType::class, [
+                'label' => "Email du créateur",
+                'required' => false
+            ])
         ;
     }
 

@@ -27,6 +27,8 @@ class MediaController extends AbstractController
     #[Route('/', name: 'app_media')]
     public function index(Request $request): Response
     {
+// $qb = SELECT * FROM media INNER JOIN user ON media.user_id = user.id
+
         $qb = $this->mediaRepository->getQbAll();
 
         $form = $this->createForm(MediaSearchType::class);
@@ -38,6 +40,13 @@ class MediaController extends AbstractController
             if($data['mediaTitle'] !== null) {
                 $qb->andWhere('m.title LIKE :toto')
                     ->setParameter('toto', "%".$data['mediaTitle']."%");
+            }
+            if($data['userEmail'] !== null) {
+                //INNER JOIN user ON media.user_id = user.id
+                //WHERE user.email = {ma_recherche}
+                $qb->innerJoin('m.user', 'u')
+                    ->andWhere('u.email = :email')
+                    ->setParameter('email', $data['userEmail']);
             }
         }
 
