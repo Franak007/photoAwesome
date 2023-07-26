@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MediaController!{% endblock %}
+
+{% block body %}
+<h1>Liste des Médias</h1>
+        <p>Nombre de médias : {{ medias.totalItemCount }}</p>
+    {{ form_start(form) }}
+    {{ form_row(form.mediaTitle) }}
+    <button type="submit">Rechercher</button>
+    {{ form_end(form) }}
+    <ul>
+        {% for media in medias %}
+{#            <li>{{ media.title }}</li>#}
+            <li><a href="{{ path('app_media_show', {'id':media.id}) }}">{{ media.title }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="navigation">
+        {{ knp_pagination_render(medias) }}
+    </div>
+{% endblock %}
