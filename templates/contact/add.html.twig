@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block body %}
+    <h1>Contact</h1>
+    {{ form_start(formContact) }}
+    <ul>
+        <li>{{ form_row(formContact.email) }}</li>
+        <li>{{ form_row(formContact.content) }}</li>
+    </ul>
+    <button type="submit">Envoyez votre message</button>
+    {{ form_end (formContact) }}
+{% endblock %}
