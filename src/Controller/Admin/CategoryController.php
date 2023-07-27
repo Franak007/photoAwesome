@@ -46,7 +46,7 @@ class CategoryController extends AbstractController
         $result = $qb->getQuery()->getResult();
 //        $categoryEntities = $this->categoryRepository->findAll();
 
-        return $this->render('category/indexAdmin.html.twig', [
+        return $this->render('category/index.html.twig', [
 //            'controller_name' => 'CategoryController',
             'categories' => $result,
             'form' => $form->createView()

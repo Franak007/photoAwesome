@@ -71,7 +71,7 @@ class MediaController extends AbstractController
 
 //        $medias = $this->mediaRepository->findAll();
 
-        return $this->render('media/indexAdmin.html.twig', [
+        return $this->render('media/index.html.twig', [
 //            'controller_name' => 'MediaController',
                 'medias' => $pagination,
                 'form' => $form->createView()

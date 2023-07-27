@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ContactController!{% endblock %}
+
+{% block body %}
+    <h1>{{ contact.email }}</h1>
+
+    <ul>
+            <li>Demande du : {{ contact.createdAt|date ('d-m-Y')}}</li>
+            <li>Contenu du message : <p>{{ contact.content }}</p></li>
+            <li><a href ="{{ path('app_contact') }}">Définir comme lu</a></li>
+    </ul>
+
+{% endblock %}
