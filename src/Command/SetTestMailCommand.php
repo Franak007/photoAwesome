@@ -44,8 +44,10 @@ class SetTestMailCommand extends Command
                     'email' => 'franck.pertosa@hotmail.fr'
                 ],
                 "to" => [
-                    'email' => 'franck.pertosa@gmail.com',
-                    'name' => 'Franck Pertosa'
+                    [
+                        'email' => 'franck.pertosa@gmail.com',
+                        'name' => 'Franck Pertosa'
+                    ]
                 ],
                 "subject" => "Bonjour !!!",
                 "htmlContent" => "<p>Bien le bonjour l'ami !!! </p>"
