@@ -14,7 +14,7 @@ class CategorySearchType extends AbstractType
         $builder
             ->setMethod('GET')
             ->add('categoryLabel', TextType::class, [
-                'label' => 'Nom de la catégorie',
+                'label' => 'Rechercher une catégorie : ',
                 'required' => false
                 ])
         ;

@@ -4,16 +4,14 @@
 
 {% block body %}
     <h1>Ajouter une média</h1>
-    {{ form_start(form) }}
+    {{ form_start(formMedia) }}
 <ul>
-    <li>{{ form_row(form.filePath) }}</li>
-    <li>{{ form_row(form.title) }}</li>
-    <li>{{ form_row(form.description) }}</li>
-    <li>{{ form_row(form.slug) }}</li>
-    <li>{{ form_row(form.createdAt) }}</li>
-    <li>{{ form_row(form.categories) }}</li>
-    <li>{{ form_row(form.user) }}</li>
+    <li>{{ form_row(formMedia.file) }}</li>
+    <li>{{ form_row(formMedia.title) }}</li>
+    <li>{{ form_row(formMedia.description) }}</li>
+    <li>{{ form_row(formMedia.categories) }}</li>
+{#    <li>{{ form_row(formMedia.user) }}</li>#}
 </ul>
     <button type="submit">Valider la création du média</button>
-    {{ form_end (form) }}
+    {{ form_end (formMedia) }}
 {% endblock %}

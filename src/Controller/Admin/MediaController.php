@@ -5,16 +5,18 @@ namespace App\Controller\Admin;
 use App\Entity\Category;
 use App\Entity\Media;
 use App\Form\CategoryType;
-use App\Form\MediaInsertType;
+use App\Form\MediaType;
 use App\Form\MediaSearchType;
 use App\Repository\MediaRepository;
 use Container3xYJlWO\getKnpPaginatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/media')]
 class MediaController extends AbstractController
@@ -23,7 +25,7 @@ class MediaController extends AbstractController
     public function __construct(
         private MediaRepository $mediaRepository,
         private EntityManagerInterface $entityManager,
-        private PaginatorInterface $paginator
+        private PaginatorInterface $paginator,
     )
     {
     }
@@ -87,22 +89,65 @@ class MediaController extends AbstractController
     }
 
     #[Route('/add', name: 'app_media_add')]
-    public function add(Request $request): Response
+    public function add(Request $request,SluggerInterface $slugger): Response
     {
-        $media = new Media();
-        $form = $this->createForm(MediaInsertType::class, $media);
-        $form->handleRequest($request); // Donne la consigne au formulaire d'écouter ce qui se passe dans la request
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        /**
+         * ci dessous, récupère l'utilisateur connecté,
+         * soit une entité User(si connecté)
+         * soit null (si pas connecté
+         */
+        $user = $this->getUser();
+//        à utiliser en cas d'accès avec une route ou on n'est pas forcément connecté (ce n'est pas notre cas ici)
+//        if($user === null){
+//            return $this->redirectToRoute('app_home');
+//        }
+//
+        $uploadDirectory = $this->getParameter('upload_file'); //va récupérer les uploads dans le dossier public
+
+
+        $media = new Media();
+        //Je relie le média à l'utilisateur connecté
+        $media->setUser($user);
+        //Je donne la date à mon média
+        $media->setCreatedAt(new \DateTime());
+
+        $form = $this->createForm(MediaType::class, $media);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($media->getTitle());
+            $media->setSlug($slug);
+
+            $file = $form->get('file')->getData();
+
+            // on créé un nouveau nom unique pour le fichier téléchargé
+            if($file){
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); //récupère le nom du fichier sans l'extension
+                $safeFileName = $slugger->slug($originalFileName);
+                $newFileName = $safeFileName . '-' . uniqid() . '.' . $file->guessExtension();
+
+                //on déplace le fichier dans le dossier d'upload avec son nouveau nom
+                try {
+                    $file->move(
+                        $this->getParameter('upload_file'),
+                        $newFileName
+                    );
+                    //on donne le chemin du fichier au média
+                    $media->setFilePath($newFileName);
+                } catch(FileException $e) {
+
+                }
+            }
+
             $this->entityManager->persist($media);
             $this->entityManager->flush();
-
             return $this->redirectToRoute('app_media');
+
         }
 
         return $this->render('media/add.html.twig', [
-            'form' => $form->createView()
-
+            'formMedia' => $form->createView()
         ]);
     }
 }
