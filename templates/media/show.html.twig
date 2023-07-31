@@ -7,9 +7,11 @@
 
     <ul>
         <li>Description : {{ media.description }},</li>
+        <li>Prix du média : {{ media.price|euro }}</li>
         <li>Créé le {{ media.createdAt|date('d-m-y') }} à {{ media.createdAt|date('H:m') }}, par {{ media.user.email }}
             ,
         </li>
+
         <li>Catégories :
             <ul> {% for category in media.categories %}
                     <li>{{ category.label }} </li>

@@ -14,6 +14,9 @@
     <ul>
         {% for media in medias %}
 {#            <li>{{ media.title }}</li>#}
+
+            <p>{{ media.price }}</p>
+            <p>{{ media.price|euro }}</p>
             <li><a href="{{ path('app_media_show', {'id':media.id}) }}">{{ media.title }}</a></li>
         {% endfor %}
     </ul>

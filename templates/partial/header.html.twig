@@ -1,4 +1,6 @@
 <div>
+    {% set medias = get_last_five_media() %}
+    {% dump(medias) %}
     {% if app.user %}
         {# je suis connecté #}
         <a href="{{ path('app_logout') }}">Se déconnecter</a>
@@ -12,4 +14,8 @@
         <a href="{{ path('app_login') }}">Se connecter</a>
         <a href="{{ path('app_register') }}">S'enregistrer</a>
     {% endif %}
+<br>
+    {% for media in medias %}
+    {{ media.title}} /
+    {% endfor %}
 </div>

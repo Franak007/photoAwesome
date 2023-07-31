@@ -28,28 +28,14 @@ class MediaRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m');
     }
 
-//    /**
-//     * @return Media[] Returns an array of Media objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+// SELECT * FROM media ORDER BY created_at LIMIT 5;
 
-//    public function findOneBySomeField($value): ?Media
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findLastFiveMedia()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.createdAt', 'desc')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
 }
