@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('script', './assets/main.js')
 
+    .addStyleEntry('style', '.asset/style/main.scss')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
