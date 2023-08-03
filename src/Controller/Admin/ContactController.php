@@ -20,7 +20,7 @@ class ContactController extends AbstractController
     {
     }
 
-    #[Route('/', name: 'app_category')]
+    #[Route('/', name: 'app_contact')]
     public function index(Request $request): Response
     {
         // $qb = SELECT * FROM category

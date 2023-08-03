@@ -7,6 +7,8 @@ use App\Entity\Media;
 use App\Form\CategoryType;
 use App\Form\MediaType;
 use App\Form\MediaSearchType;
+use App\Repository\CategoryRepository;
+use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use Container3xYJlWO\getKnpPaginatorService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +28,7 @@ class MediaController extends AbstractController
         private MediaRepository $mediaRepository,
         private EntityManagerInterface $entityManager,
         private PaginatorInterface $paginator,
+        private CategoryRepository $categoryRepository
     )
     {
     }
@@ -150,4 +153,8 @@ class MediaController extends AbstractController
             'formMedia' => $form->createView()
         ]);
     }
+
+
+
+
 }
